@@ -3,10 +3,20 @@ var expect = require('expect.js');
 
 var Fetcher = require('../build/fetcher.js').Fetcher;
 
-describe('Fetcher Class', function () {
+describe('Fetcher', function () {
 	
-	it('sanity check', function () {
+	it('exists', function () {
 		expect(new Fetcher()).not.to.be(null);
 	});
 
-})
+	describe('fetch', function () {
+
+		var fetcher = new Fetcher('');
+
+		it('returns a url', function () {
+			
+		});
+
+	});
+
+});
