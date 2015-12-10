@@ -12,7 +12,7 @@ class RequestBuilder {
 			action: 'parse',
 			prop: 'text',
 			section: 2,
-			format: 'json',			
+			format: 'json'
 		};
 
 		output.page = this.formatDate();
@@ -22,6 +22,14 @@ class RequestBuilder {
 
 	formatDate() {
 		return moment(this.date).format('MMMM_D');
+	}
+
+	buildRequest() {
+		var endpoint = 'https://en.wikipedia.org/w/api.php';
+		return {
+			url: endpoint,
+			qs: this.buildParameters()
+		};
 	}
 
 }

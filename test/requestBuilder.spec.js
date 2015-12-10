@@ -39,6 +39,24 @@ describe('RequestBuilder', function () {
 	
 	});
 
+	describe('buildRequest', function () {
+
+		it('creates the request object', function () {
+			var expected = {
+				url: 'https://en.wikipedia.org/w/api.php',
+				qs: {
+					action: 'parse',
+					prop: 'text',
+					section: 2,
+					format: 'json',
+					page: 'October_3'					
+				}
+			};
+			expect(builder.buildRequest()).to.eql(expected);
+		});
+
+	});
+
 
 
 });
