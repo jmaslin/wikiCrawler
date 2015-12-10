@@ -1,5 +1,3 @@
-var unirest = require('unirest');
-
 class Fetcher {
 
 	fetch() {
