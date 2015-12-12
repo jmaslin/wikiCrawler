@@ -1,6 +1,5 @@
-var assert = require('assert');
-var expect = require('expect.js');
-var moment = require('moment');
+var expect 	= require('expect.js');
+var moment 	= require('moment');
 
 var RequestBuilder = require('../build/requestBuilder.js').RequestBuilder;
 
@@ -16,7 +15,6 @@ describe('RequestBuilder', function () {
 	describe('buildParameters', function () {
 
 		it('generates parameters', function () {
-			// var expected = "https://en.wikipedia.org/w/api.php?action=parse&page=October_3&prop=text&section=2&format=json";
 			var expected = {
 				action: 'parse',
 				prop: 'text',
@@ -44,7 +42,7 @@ describe('RequestBuilder', function () {
 		it('creates the request object', function () {
 			var expected = {
 				url: 'https://en.wikipedia.org/w/api.php',
-				qs: {
+				params: {
 					action: 'parse',
 					prop: 'text',
 					section: 2,

@@ -28,7 +28,7 @@ class RequestBuilder {
 		var endpoint = 'https://en.wikipedia.org/w/api.php';
 		return {
 			url: endpoint,
-			qs: this.buildParameters()
+			params: this.buildParameters()
 		};
 	}
 
