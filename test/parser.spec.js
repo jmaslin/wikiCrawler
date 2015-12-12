@@ -7,19 +7,6 @@ var cheerio = require('cheerio');
 var Parser = require('../build/parser.js').Parser;
 
 var textToParse = JSON.parse(fs.readFileSync('test/data/day-response.json', 'utf8')).parse.text['*'];
-// var $ = cheerio.load(textToParse);
-
-// var sectionTitle = $('h2').children('span[class=mw-headline]').text();
-
-// var length = $('ul').find('li').css('list-style', 'none').length;
-// $('ul > li').each(function (index, element) {
-// 	var listItemText = $(this).text();
-// 	var year = listItemText.substring(0, listItemText.indexOf('\u2013')).trim();
-// 	var name = listItemText.substring(listItemText.indexOf('\u2013')+2, listItemText.indexOf(','))
-
-// 	var nameURI = $(this).children('a:contains('+name+')').attr('href');
-// 	var yearURI = $(this).children('a:contains('+year+')').attr('href');
-// });
 
 describe('Parser', function () {
 	
@@ -52,7 +39,6 @@ describe('Parser', function () {
 
 	describe('parseList', function () {
 
-
 		it('should return an array', function () {
 			expect(parser.parseList()).to.be.a('array');
 		});	
@@ -65,9 +51,3 @@ describe('Parser', function () {
 	});
 
 });
-
-// getData
-// load to cheerio
-// parse list
-// create list item object
-// return object array
