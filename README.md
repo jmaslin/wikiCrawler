@@ -2,14 +2,20 @@
 
 Wikipedia page list crawler.
 
-## Babel
+## 1. Install
 
-To transform the Babel ES6 into ES5, run:
+To build the project:
+
+`npm install`
+
+## 2. Build
+
+To compile the ES2015 into ES5:
 
 `babel --watch src --out-dir build`
 
-## Testing
+## 3. Testing
 
-To run mocha tests:
+To run Mocha unit tests:
 
 `mocha test/*` 
