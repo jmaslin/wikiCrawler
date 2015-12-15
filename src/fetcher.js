@@ -8,7 +8,6 @@ class Fetcher {
   }
 
   fetch() {
-    console.log("Fetching...");
     var requester = new RequestBuilder(this.date);
     var executer = new RequestExecuter(requester.buildRequest());
     return executer.sendRequest();
