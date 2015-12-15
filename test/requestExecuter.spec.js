@@ -1,4 +1,7 @@
-var expect = require('expect.js');
+var chai = require('chai');
+var chaiAsPromised = require("chai-as-promised"); 
+var expect = chai.use(chaiAsPromised).expect;
+
 var nock = require('nock');
 var axios = require('axios');
 var querystring = require('querystring');
@@ -28,13 +31,12 @@ describe('RequestExecuter', function () {
   var executer = new RequestExecuter(requestObject);
   
   it('exists', function () {
-    expect(new RequestExecuter()).to.not.be(null);
+    expect(new RequestExecuter()).to.be.a('object');
   });
 
   describe('buildRequest', function () {
     it('creates the request promise', function () {
-      var expected = 'Promise';
-      expect(executer.buildRequest().constructor.name).to.be(expected);
+      expect(executer.buildRequest().then).to.be.a('function');
     });
   });
 
@@ -45,17 +47,16 @@ describe('RequestExecuter', function () {
                 .get('/w/api.php?'+querystring.stringify(requestObject.params))
                 .reply(200, expectedResponse);
 
-    it('returns a status of 200', function (done) {
-      executer.sendRequest()
+    it('returns a status of 200', function () {
+      var response = executer.sendRequest()
         .then(function (response) {
-          expect(response).to.not.be(null);
-          expect(response.status).to.be(200);
-
-          done();
+          return response.status;
         });
+
+      return expect(response).to.eventually.equal(200);
     });
 
-    it('returns the proper format', function (done) {
+    it('returns the proper format', function () {
 
       var expected = [
         'title',
@@ -63,25 +64,23 @@ describe('RequestExecuter', function () {
         'text'
       ];
 
-      executer.sendRequest()
+      var response =  executer.sendRequest()
         .then(function (response) {
-          expect(response.data).to.only.have.keys(expected);
-          done();
+          return response.data;
         });
-
+      
+      return expect(response).to.eventually.have.all.keys(expected);
     });
 
-    it('returns the proper data', function (done) {
+    it('returns the correct title', function () {
 
-      executer.sendRequest()
+      var response = executer.sendRequest()
         .then(function (response) {
-          expect(response.data.title).to.be(expectedResponse.parse.title);
-          expect(response.data.pageId).to.be(expectedResponse.parse.pageid);
-          expect(response.data.text).to.be(expectedResponse.parse.text['*']);
-
-          done();
+          return response.data.title;
         });
-    })
+
+      return expect(response).to.eventually.eql(expectedResponse.parse.title);
+    });
 
   });
 

@@ -1,4 +1,7 @@
-var expect = require('expect.js');
+var chai = require('chai');
+var chaiAsPromised = require("chai-as-promised"); 
+var expect = chai.use(chaiAsPromised).expect;
+
 var moment = require('moment');
 
 var Fetcher = require('../build/fetcher.js').Fetcher;
@@ -9,12 +12,12 @@ describe('Fetcher', function () {
   var fetcher = new Fetcher(date);
 
   it('exists', function () {
-    expect(new Fetcher()).not.to.be(null);
+    expect(new Fetcher()).to.be.a('object');
   });
 
   describe('fetch', function () {
 
-    it('returns data', function (done) {
+    it('returns data', function () {
 
       var expected = [
         'title',
@@ -22,12 +25,12 @@ describe('Fetcher', function () {
         'text'
       ];
 
-      fetcher.fetch()
+      var response = fetcher.fetch()
         .then(function (response) {
-          expect(response.data).to.only.have.keys(expected);
-          
-          done();
+          return response.data;
         });
+
+      return expect(response).to.eventually.have.all.keys(expected);
 
     });
 

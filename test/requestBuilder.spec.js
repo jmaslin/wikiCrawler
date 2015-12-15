@@ -1,4 +1,4 @@
-var expect = require('expect.js');
+var expect = require('chai').expect;
 var moment = require('moment');
 
 var RequestBuilder = require('../build/requestBuilder.js').RequestBuilder;
@@ -9,7 +9,7 @@ describe('RequestBuilder', function () {
   var builder = new RequestBuilder(date);
 
   it('exists', function () {
-    expect(new RequestBuilder()).to.not.be(null);
+    expect(new RequestBuilder()).to.be.a('object');
   });
 
   describe('buildParameters', function () {
