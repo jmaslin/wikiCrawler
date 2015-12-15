@@ -11,21 +11,18 @@ describe('Parser', function () {
   var parser = new Parser(textToParse);
 
   it('exists', function () {
-    expect(new Parser()).to.be.ok;
+    expect(new Parser()).to.be.a('object');
+
   });
 
   describe('parseListItem', function () {
     var $ = cheerio.load('<li><a href="/wiki/2003" title="2003">2003</a> – <a href="/wiki/Catharina-Amalia,_Princess_of_Orange" title="Catharina-Amalia, Princess of Orange">Catharina-Amalia, Princess of Orange</a></li>');
     var expected = {
-      year: {
-        text: '2003',
-        uri: '/wiki/2003'
-      },
-      name: {
-        text: 'Catharina-Amalia',
-        uri: '/wiki/Catharina-Amalia,_Princess_of_Orange'
-      }
+      name: 'Catharina-Amalia',
+      uri: '/wiki/Catharina-Amalia,_Princess_of_Orange',
+      year: '2003'
     };
+
     var listItem = parser.parseListItem(0, $.html());
     
     it('should return a list item object', function () {
@@ -46,6 +43,27 @@ describe('Parser', function () {
       expect(parser.parseList().length).to.equal(expected);
     });
 
+  });
+
+  describe('getListItemName', function () {
+    it('should return the name from text', function () {
+      var expected = 'Catharina-Amalia';
+      var $ = cheerio.load('<li><a href="/wiki/2003" title="2003">2003</a> – <a href="/wiki/Catharina-Amalia,_Princess_of_Orange" title="Catharina-Amalia, Princess of Orange">Catharina-Amalia, Princess of Orange</a></li>');
+      var text = $('li').text();
+
+      expect(parser.getListItemName(text)).to.equal(expected);
+    });
+  });
+
+  describe('getListItemYear', function () {
+    it('should return the name from text', function () {
+      var expected = '2003';
+      var $ = cheerio.load('<li><a href="/wiki/2003" title="2003">2003</a> – <a href="/wiki/Catharina-Amalia,_Princess_of_Orange" title="Catharina-Amalia, Princess of Orange">Catharina-Amalia, Princess of Orange</a></li>');
+      var text = $('li').text();
+
+      expect(parser.getListItemYear(text)).to.equal(expected);
+
+    });
   });
 
 });

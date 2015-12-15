@@ -2,64 +2,69 @@ var cheerio = require('cheerio');
 
 class Parser {
 
-  constructor(textToParse) {
-    this.textToParse = textToParse;
-    if (textToParse) {
-      this.$ = cheerio.load(textToParse);
-    }
-  }
+	constructor(textToParse) {
+		this.textToParse = textToParse;
+		if (textToParse) {
+			this.$ = cheerio.load(textToParse);
+		}
+	}
 
-  get itemList() {
-    return this.parseList();
-  }
+	get itemList() {
+		return this.parseList();
+	}
 
-  parseList() {
-    var parseItem = this.parseListItem;
-    var list = this.$('ul').clone();
+	parseList() {
+		var that = this;
+		var list = this.$('ul').clone();
 
-    var listData = [];
+		var listData = [];
 
-    this.$(list).find('li').each(function (index, element) {
-      listData.push(parseItem(index, element));
-    });
+		this.$(list).find('li').each(function (index, element) {
+			listData.push(that.parseListItem(index, element));
+		});
 
-    return listData;
-  }
+		return listData;
+	}
 
-  parseListItem(index, element) {
+	parseListItem(index, element) {
 
-    var $ = cheerio.load(element);
-    var item = {};
+		var $ = cheerio.load(element);
+		var item = {};
 
-    var yearText, yearURI, nameText, nameURI, nameArray;
+		var yearText, yearURI, nameText, nameURI, nameArray;
 
-    var listItemText = $(element).text();
+		var listItemText = $(element).text();
 
-    yearText = listItemText.substring(0, listItemText.indexOf('\u2013')).trim();
+		yearText = this.getListItemYear(listItemText);
+		nameText = this.getListItemName(listItemText);
 
-    if (listItemText.indexOf(',') === -1) {
-      nameText = listItemText.substring(listItemText.indexOf('\u2013')+2, listItemText.length);
-    } else {
-      nameText = listItemText.substring(listItemText.indexOf('\u2013')+2, listItemText.indexOf(','));
-    }
+		nameArray = nameText.split(' ');
 
-    nameArray = nameText.split(' ');
+		nameURI = $('a:contains('+nameArray[0]+')').attr('href');
+		yearURI = $('a:contains('+yearText+')').attr('href');
 
-    nameURI = $('a:contains('+nameArray[0]+')').attr('href');
-    yearURI = $('a:contains('+yearText+')').attr('href');
-    
-    item.year = {
-      text: yearText,
-      uri: yearURI
+    item = {
+      name: nameText,
+      uri: nameURI,
+      year: yearText
     };
 
-    item.name = {
-      text: nameText,
-      uri: nameURI
-    };
+		return item;
+	}
 
-    return item;
-  }
+	getListItemName(listItemText) {
+		var nameText;
+		if (listItemText.indexOf(',') === -1) {
+			nameText = listItemText.substring(listItemText.indexOf('\u2013')+2, listItemText.length);
+		} else {
+			nameText = listItemText.substring(listItemText.indexOf('\u2013')+2, listItemText.indexOf(','));
+		}
+		return nameText;	
+	}
+
+	getListItemYear(listItemText) {
+		return listItemText.substring(0, listItemText.indexOf('\u2013')).trim();
+	}
 
 }
 
