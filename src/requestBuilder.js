@@ -2,35 +2,35 @@ var moment = require('moment');
 
 class RequestBuilder {
 
-	constructor(date) {
-		this.date = date;
-	}
+  constructor(date) {
+    this.date = date;
+  }
 
-	buildParameters() {
+  buildParameters() {
 
-		var output = {
-			action: 'parse',
-			prop: 'text',
-			section: 2,
-			format: 'json'
-		};
+    var output = {
+      action: 'parse',
+      prop: 'text',
+      section: 2,
+      format: 'json'
+    };
 
-		output.page = this.formatDate();
+    output.page = this.formatDate();
 
-		return output;
-	}
+    return output;
+  }
 
-	formatDate() {
-		return moment(this.date).format('MMMM_D');
-	}
+  formatDate() {
+    return moment(this.date).format('MMMM_D');
+  }
 
-	buildRequest() {
-		var endpoint = 'https://en.wikipedia.org/w/api.php';
-		return {
-			url: endpoint,
-			params: this.buildParameters()
-		};
-	}
+  buildRequest() {
+    var endpoint = 'https://en.wikipedia.org/w/api.php';
+    return {
+      url: endpoint,
+      params: this.buildParameters()
+    };
+  }
 
 }
 

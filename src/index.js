@@ -1,9 +1,9 @@
-var readline 	= require('readline');
-var moment		= require('moment');
-var fs 				= require('fs');
+var readline  = require('readline');
+var moment    = require('moment');
+var fs        = require('fs');
 
-var Fetcher 	= require('./fetcher').Fetcher;
-var Parser 		= require('./parser').Parser;
+var Fetcher   = require('./fetcher').Fetcher;
+var Parser    = require('./parser').Parser;
 
 var fetcher, parser, date, parsedData;
 
@@ -31,20 +31,20 @@ var file = fs.createWriteStream(tmpFile);
 
 var fetchData = function fetchData () {
 
-	fetcher.fetch().then(function (response) {
+  fetcher.fetch().then(function (response) {
 
-		console.log("Response received");
-		parser = new Parser(response.data.text);
-		// parser.parseList();
+    console.log("Response received");
+    parser = new Parser(response.data.text);
+    // parser.parseList();
 
-		parser.itemList.forEach(function (item) {
-			file.write(JSON.stringify(item));
-			file.write('\n');
-		});
+    parser.itemList.forEach(function (item) {
+      file.write(JSON.stringify(item, null, 2));
+      file.write('\n');
+    });
 
-		file.end();
+    file.end();
 
-	  rl.close();
-	});
+    rl.close();
+  });
 
 };
