@@ -12,22 +12,6 @@ describe('RequestBuilder', function () {
     expect(new RequestBuilder()).to.be.a('object');
   });
 
-  describe('buildParameters', function () {
-
-    it('generates parameters', function () {
-      var expected = {
-        action: 'parse',
-        prop: 'text',
-        section: 2,
-        format: 'json',
-        page: 'October_3'
-      };
-
-      expect(builder.buildParameters()).to.eql(expected);
-    });
-
-  });
-
   describe('formatDate', function () {
 
     it('formats the date', function () {
@@ -38,23 +22,24 @@ describe('RequestBuilder', function () {
   });
 
   describe('buildRequest', function () {
-
-    it('creates the request object', function () {
+    it('has the correct parameters', function () {
       var expected = {
-        url: 'https://en.wikipedia.org/w/api.php',
-        params: {
-          action: 'parse',
-          prop: 'text',
-          section: 2,
-          format: 'json',
-          page: 'October_3'         
-        }
+        action: 'parse',
+        prop: 'text',
+        section: 2,
+        format: 'json',
+        page: 'October_3'         
       };
-      expect(builder.buildRequest()).to.eql(expected);
+      builder.parameters = expected;
+      expect(builder.buildRequest().params).to.eql(expected);
+    });
+
+    it('has the correct endpoint', function () {
+      var expected = 'https://en.wikipedia.org/w/api.php';
+      
+      expect(builder.buildRequest().url).to.eql(expected);
     });
 
   });
-
-
 
 });

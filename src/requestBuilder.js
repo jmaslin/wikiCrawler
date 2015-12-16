@@ -6,18 +6,20 @@ class RequestBuilder {
     this.date = date;
   }
 
-  buildParameters() {
+  set parameters(parameters) {
+    this._parameters = parameters;
+  }
 
-    var output = {
-      action: 'parse',
-      prop: 'text',
-      section: 2,
-      format: 'json'
-    };
+  get parameters() {
+    return this._parameters;
+  }
 
-    output.page = this.formatDate();
+  set transformResponseFn(newFunction) {
+    this._transformResponseFn = newFunction;
+  }
 
-    return output;
+  get transformResponseFn() {
+    return this._transformResponseFn;
   }
 
   formatDate() {
@@ -26,9 +28,11 @@ class RequestBuilder {
 
   buildRequest() {
     var endpoint = 'https://en.wikipedia.org/w/api.php';
+
     return {
       url: endpoint,
-      params: this.buildParameters()
+      params: this._parameters,
+      transformResponse: this._transformResponseFn
     };
   }
 
