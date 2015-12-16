@@ -15,7 +15,7 @@ describe('Fetcher', function () {
     expect(new Fetcher()).to.be.a('object');
   });
 
-  describe('fetch', function () {
+  describe('getList', function () {
 
     it('returns data', function () {
 
@@ -25,7 +25,9 @@ describe('Fetcher', function () {
         'text'
       ];
 
-      var response = fetcher.fetch()
+      var listType = 'births';
+
+      var response = fetcher.getList(listType)
         .then(function (response) {
           return response.data;
         });

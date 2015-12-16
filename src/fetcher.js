@@ -1,14 +1,14 @@
-var RequestBuilder = require('./requestBuilder').RequestBuilder;
+var ListRequestBuilder = require('./listRequestBuilder').ListRequestBuilder;
 var RequestExecuter = require('./requestExecuter').RequestExecuter;
 
 class Fetcher {
 
   constructor(date) {
-    this.date = date;
+    this._date = date;
   }
 
-  fetch() {
-    var requester = new RequestBuilder(this.date);
+  getList(listType) {
+    var requester = new ListRequestBuilder(this._date, listType);
     var executer = new RequestExecuter(requester.buildRequest());
     return executer.sendRequest();
   }
