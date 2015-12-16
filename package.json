@@ -4,11 +4,9 @@
   "description": "Fetches famous birthdays from Wikipedia.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*",
-    "compile": "babel -d src/ --out-dir build/",
-    "prepublish": "npm run compile"
+    "test": "mocha test/*"
   },
-  "author": "",
+  "author": "Justin Maslin",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.8.0",
