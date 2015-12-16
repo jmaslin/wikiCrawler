@@ -4,8 +4,9 @@
   "description": "Fetches famous birthdays from Wikipedia.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "babel --watch src --out-dir build"
+    "test": "mocha test/*",
+    "compile": "babel -d src/ --out-dir build/",
+    "prepublish": "npm run compile"
   },
   "author": "",
   "license": "ISC",
