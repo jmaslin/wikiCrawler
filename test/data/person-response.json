@@ -1,0 +1,19 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "normalized": [
+      {
+        "from": "Catherine_of_Aragon",
+        "to": "Catherine of Aragon"
+      }
+    ],
+    "pages": {
+      "6942": {
+        "pageid": 6942,
+        "ns": 0,
+        "title": "Catherine of Aragon",
+        "extract": "Catherine of Aragon (Castilian: Catalina; also spelled Katherine of Aragon, 16 December 1485 – 7 January 1536) was the Queen of England from June 1509 until May 1533 as the first wife of King Henry VIII; she was previously Princess of Wales as the wife of Prince Arthur.\nThe daughter of Queen Isabella I of Castile and King Ferdinand II of Aragon, Catherine was three years old when she was betrothed to Prince Arthur, heir apparent to the English throne. They married in 1501, and Arthur died five months later."
+      }
+    }
+  }
+}
