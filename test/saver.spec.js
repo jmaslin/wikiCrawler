@@ -27,6 +27,17 @@ describe('Saver', function () {
 
   });
 
+  describe('addPersonForDay', function () {
+    it('adds a person to specified day', function () {
+      var person = {
+        name: 'Test Person'
+      };  
+      var day = "March_15";
+
+      expect(saver.addPersonForDay(person, day)).to.not.be.a('undefined');
+    });
+  });
+
 
 
 });
