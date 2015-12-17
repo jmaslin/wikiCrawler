@@ -1,50 +1,52 @@
-var readline  = require('readline');
-var moment    = require('moment');
-var fs        = require('fs');
+var readline = require('readline');
+var Promise = require('promise');
 
-var Fetcher   = require('./fetcher').Fetcher;
-var Parser    = require('./parser').Parser;
+var moment = require('moment');
+require('moment-range');
 
-var fetcher, parser, date, parsedData;
+var Fetcher = require('./fetcher').Fetcher;
+var Parser = require('./parser').Parser;
+var Saver = require('./saver').Saver;
 
-console.log("Wiki Parser");
+var fetcher, parser, saver;
 
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+var fetchData = function fetchData (dateFormatted) {
+  return new Promise(function (resolve, reject) {
 
-rl.question("Enter a date. (e.g. Dec 31) ", function (input) {
-  var dateParts = input.split(' ');
-  date = moment().month(dateParts[0]).date(dateParts[1]);
-  console.log("Looking up famous births for ", moment(date).format('MMMM D'));
+    fetcher.getList('births').then(function (response) {
+      var sublist;
+      parser = new Parser(response.data.text);
+      sublist = parser.parseList().slice(0, 5);
 
-  fetcher = new Fetcher(date);
-  fetchData();
-
-});
-
-var tmpFile = 'tmp/data.json';
-
-fs.unlinkSync(tmpFile);
-var file = fs.createWriteStream(tmpFile);
-
-var fetchData = function fetchData () {
-
-  fetcher.fetch().then(function (response) {
-
-    console.log("Response received");
-    parser = new Parser(response.data.text);
-    // parser.parseList();
-
-    parser.itemList.forEach(function (item) {
-      file.write(JSON.stringify(item, null, 2));
-      file.write('\n');
+      sublist.forEach(function (person) {
+        fetcher.getPerson(person).then(function (personResponse) {
+          person.aboutText = personResponse.data.text;
+          person.pageId = personResponse.data.pageId;
+          
+          saver.addPersonForDay(person, dateFormatted);
+        });
+      });
+      resolve();
     });
 
-    file.end();
-
-    rl.close();
   });
-
 };
+
+var start = moment('2016-01-01', 'YYYY-MM-DD');
+var end = moment('2016-01-05', 'YYYY-MM-DD');
+var range = moment.range(start, end);
+
+saver = new Saver('tmp/all.json');
+fetcher = new Fetcher();
+
+var dayPromises = [];
+
+range.by('days', function (dayMoment) {
+  var dateFormatted = moment(dayMoment).format('MMMM_D');
+  fetcher.date = dayMoment;
+
+  dayPromises.push(fetchData(dateFormatted));
+});
+
+console.log("Wiki Parser");
+Promise.all(dayPromises);
