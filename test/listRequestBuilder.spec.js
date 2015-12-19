@@ -14,6 +14,13 @@ describe('ListRequestBuilder', function () {
     expect(new ListRequestBuilder()).to.be.a('object');
   });
 
+  describe('formatDate', function () {
+    it('formats the date', function () {
+      var expected = 'October_3';
+      expect(builder.formatDate()).to.eql(expected);
+    });
+  });
+
   describe('listSectionNumber', function () {
     it('returns the list number from name', function () {
       var expected = 2;
@@ -22,32 +29,21 @@ describe('ListRequestBuilder', function () {
   });
 
   describe('buildParameters', function () {
-
     it('generates parameters object', function () {
-      var expected = {
+      var expectedParameters = {
         action: 'parse',
         prop: 'text',
         section: 2,
         format: 'json',
         page: 'October_3'
       };
-
-      expect(builder.buildParameters()).to.eql(expected);
+      expect(builder.buildParameters()).to.eql(expectedParameters);
     });
-
   });
 
   describe('buildRequest', function () {
-
     it('has the correct parameters', function () {
-      var expected = {
-        action: 'parse',
-        prop: 'text',
-        section: 2,
-        format: 'json',
-        page: 'October_3'         
-      };
-      expect(builder.buildRequest().params).to.eql(expected);
+      expect(builder.buildRequest().params).to.eql(builder.buildParameters());
     });
 
     it('has the correct endpoint', function () {
@@ -62,18 +58,14 @@ describe('ListRequestBuilder', function () {
   
   describe('transformResponse function', function () {
     it('changes the response data format', function () {
-      var expectedFormat = {
-        title: '',
-        pageId: '',
-        text: ''
-      };
-
+      var expectedKeys = [
+        'title',
+        'pageId',
+        'text'
+      ];
       var responseFormat = JSON.stringify({ parse: { title: '', pageid: '', text: { '*': '' } } });
-
-      expect(builder.transformResponse(responseFormat)).to.eql(expectedFormat);
+      expect(builder.transformResponse(responseFormat)).to.have.all.keys(expectedKeys);
     });
-
   });
-
 
 });

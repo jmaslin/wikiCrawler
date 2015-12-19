@@ -1,11 +1,10 @@
 var moment = require('moment');
+const endpoint = 'https://en.wikipedia.org/w/api.php';
 
-var RequestBuilder = require('./requestBuilder').RequestBuilder;
-
-class ListRequestBuilder extends RequestBuilder {
+class ListRequestBuilder {
 
   constructor(date, listType) {
-    super(date);
+    this._date = date;
     this._listType = listType;
   }
 
@@ -18,12 +17,17 @@ class ListRequestBuilder extends RequestBuilder {
     };
 
     output.section = this.listSectionNumber();
-    output.page = super.formatDate();
+    output.page = this.formatDate();
 
     return output;
   }
 
+  formatDate() {
+    return moment(this._date).format('MMMM_D');
+  }
+
   listSectionNumber() {
+    // todo: this should be a separate lookup 
     var number; 
     switch (this._listType) {
       case 'births':
@@ -46,10 +50,11 @@ class ListRequestBuilder extends RequestBuilder {
   }
 
   buildRequest() { 
-    super.parameters = this.buildParameters();
-    super.transformResponseFn = this.transformResponse;
-
-    return super.buildRequest();
+    return {
+      url: endpoint,
+      params: this.buildParameters(),
+      transformResponse: this.transformResponse
+    };
   }
 
 }

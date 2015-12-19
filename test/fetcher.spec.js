@@ -19,7 +19,7 @@ describe('Fetcher', function () {
 
     it('returns data', function () {
 
-      var expected = [
+      var expectedKeys = [
         'title',
         'pageId',
         'text'
@@ -27,13 +27,36 @@ describe('Fetcher', function () {
 
       var listType = 'births';
 
-      var response = fetcher.getList(listType)
+      var response = fetcher.getList(date, listType)
         .then(function (response) {
           return response.data;
         });
 
-      return expect(response).to.eventually.have.all.keys(expected);
+      return expect(response).to.eventually.have.all.keys(expectedKeys);
+    });
 
+  });
+
+  describe('getPerson', function () {
+    var person = {
+      "name": "Catherine of Aragon (d. 1536)",
+      "uri": "/wiki/Catherine_of_Aragon",
+      "year": "1485"
+    };
+
+    it('returns data', function () {
+      var expectedKeys = [
+        'name',
+        'pageId',
+        'text'
+      ];
+
+      var response = fetcher.getPerson(person)
+        .then(function (response) {
+          return response.data;
+        });
+
+      return expect(response).to.eventually.have.all.keys(expectedKeys);
     });
 
   });

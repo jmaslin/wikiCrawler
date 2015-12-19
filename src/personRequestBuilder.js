@@ -1,9 +1,8 @@
-var RequestBuilder = require('./requestBuilder').RequestBuilder;
+const endpoint = 'https://en.wikipedia.org/w/api.php';
 
-class PersonRequestBuilder extends RequestBuilder {
+class PersonRequestBuilder {
 
   constructor(person) {
-    super();
     this._person = person;
   }
 
@@ -25,8 +24,8 @@ class PersonRequestBuilder extends RequestBuilder {
     return output;
   }
 
-  transformUri(uri) {
-    uri = uri.replace('/wiki/', '');
+  transformUri() {
+    var uri = this._person.uri.replace('/wiki/', '');
     uri = decodeURIComponent(uri);
     return uri;
   }
@@ -42,10 +41,11 @@ class PersonRequestBuilder extends RequestBuilder {
   }
 
   buildRequest() { 
-    super.parameters = this.buildParameters();
-    super.transformResponseFn = this.transformResponse;
-
-    return super.buildRequest();
+    return {
+      url: endpoint,
+      params: this.buildParameters(),
+      transformResponse: this.transformResponse
+    };
   }
 
 }

@@ -11,16 +11,6 @@ describe('PersonRequestBuilder', function () {
     "year": "1485"
   };
 
-  var expectedParams = {
-    action: 'query',
-    prop: 'extracts',
-    exsentences: '3',
-    explaintext: '',
-    format: 'json',
-    redirects: '',
-    titles: 'Catherine_of_Aragon'
-  };
-
   var builder = new PersonRequestBuilder(person);
 
   it('exists', function () {
@@ -28,11 +18,18 @@ describe('PersonRequestBuilder', function () {
   });
 
   describe('buildParameters', function () {
-
     it('generates parameters object', function () {
+      var expectedParams = {
+        action: 'query',
+        prop: 'extracts',
+        exsentences: '3',
+        explaintext: '',
+        format: 'json',
+        redirects: '',
+        titles: 'Catherine_of_Aragon'
+      };
       expect(builder.buildParameters()).to.eql(expectedParams);
     });
-
   });
 
   describe('transformUri', function () {
@@ -43,9 +40,8 @@ describe('PersonRequestBuilder', function () {
   });
 
   describe('buildRequest', function () {
-
     it('has the correct parameters', function () {
-      expect(builder.buildRequest().params).to.eql(expectedParams);
+      expect(builder.buildRequest().params).to.eql(builder.buildParameters());
     });
 
     it('has the correct endpoint', function () {

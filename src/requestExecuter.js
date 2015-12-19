@@ -2,16 +2,19 @@ var axios = require('axios');
 
 class RequestExecuter {
 
-  constructor(requestObject) {
-    this._requestObject = requestObject;
+  constructor(request) {
+    this._request = request;
   }
 
   buildRequest() {
-    return axios(this._requestObject);
+    var instance = axios.create({
+      baseUrl: 'http://www.wikipedia.org'
+    });
+    return instance;
   }
 
   sendRequest() {
-    return this.buildRequest();
+    return this.buildRequest().request(this._request);
   }
 
 }

@@ -5,20 +5,11 @@ var RequestExecuter = require('./requestExecuter').RequestExecuter;
 
 class Fetcher {
 
-  constructor(date) {
-    this._date = date;
+  constructor() {
   }
 
-  get date() {
-    return this._date;
-  }
-
-  set date(date) {
-    this._date = date;
-  }
-
-  getList(listType) {
-    var requester = new ListRequestBuilder(this._date, listType);
+  getList(date, listType) {
+    var requester = new ListRequestBuilder(date, listType);
     var executer = new RequestExecuter(requester.buildRequest());
     return executer.sendRequest();
   }
