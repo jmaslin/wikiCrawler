@@ -1,22 +1,31 @@
 var ListRequestBuilder = require('./listRequestBuilder').ListRequestBuilder;
 var PersonRequestBuilder = require('./personRequestBuilder').PersonRequestBuilder;
+var PersonListRequestBuilder = require('./personListRequestBuilder').PersonListRequestBuilder;
 
 var RequestExecuter = require('./requestExecuter').RequestExecuter;
 
 class Fetcher {
 
-  constructor() {
-  }
+  constructor() {}
 
   getList(date, listType) {
-    var requester = new ListRequestBuilder(date, listType);
-    var executer = new RequestExecuter(requester.buildRequest());
+    var requester, executer;
+    requester = new ListRequestBuilder(date, listType);
+    executer = new RequestExecuter(requester.buildRequest());
     return executer.sendRequest();
   }
 
   getPerson(person) {
-    var requester = new PersonRequestBuilder(person);
-    var executer = new RequestExecuter(requester.buildRequest());
+    var requester, executer;
+    requester = new PersonRequestBuilder(person);
+    executer = new RequestExecuter(requester.buildRequest());
+    return executer.sendRequest();
+  }
+
+  getPersonList(personList) {
+    var requester, executer;
+    requester = new PersonListRequestBuilder(personList);
+    executer = new RequestExecuter(requester.buildRequest());
     return executer.sendRequest();
   }
 
