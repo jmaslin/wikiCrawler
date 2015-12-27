@@ -46,7 +46,7 @@ describe('ListParser', function () {
 
   describe('getListItemName', function () {
     xit('should return the name from text', function () {
-      var expected = 'Catharina-Amalia';
+      var expected = 'Catharina-Amalia, Princess of Orange';
       var $ = cheerio.load('<li><a href="/wiki/2003" title="2003">2003</a> – <a href="/wiki/Catharina-Amalia,_Princess_of_Orange" title="Catharina-Amalia, Princess of Orange">Catharina-Amalia, Princess of Orange</a></li>');
       var text = $('li').text();
 

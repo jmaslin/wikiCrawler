@@ -16,6 +16,11 @@ class Saver {
     return this.db(day).find({ name: person.name });
   }
 
+  manualSetData(key, data) {
+    this.db.object[key] = data;
+    this.db.saveSync();
+  }
+
 }
 
 exports.Saver = Saver;
