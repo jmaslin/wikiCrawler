@@ -1,14 +1,13 @@
-var cheerio = require('cheerio');
 var ListParser = require('./listParser.js').ListParser;
 
 class Parser {
 
   constructor(textToParse) {
-    this.textToParse = textToParse;
+    this._textToParse = textToParse;
   }
 
   parseList() {    
-    var listParser = new ListParser(this.textToParse); 
+    var listParser = new ListParser(this._textToParse); 
     return listParser.itemList;
   }
 
