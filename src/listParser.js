@@ -3,7 +3,7 @@ var cheerio = require('cheerio');
 class ListParser {
 
 	constructor(listToParse) {
-		this.listToParse = listToParse;
+		this._listToParse = listToParse;
 	}
 
 	get itemList() {
@@ -12,12 +12,15 @@ class ListParser {
 
 	parseList() {
 		var that = this;
-		var $ = cheerio.load(this.listToParse);
+		var $ = cheerio.load(this._listToParse);
 
 		var listData = [];
 
 		$.root().find('li').each(function (index, element) {
-			listData.push(that.parseListItem(index, element));
+			var item = that.parseListItem(index, element);
+			if (item) {
+				listData.push(item);
+			}
 		});
 
 		return listData;
@@ -28,23 +31,24 @@ class ListParser {
 		var $ = cheerio.load(element);
 		var item = {};
 
-		var yearText, yearURI, nameText, nameURI, nameArray;
+		var yearURI, nameArray;
 
 		var listItemText = $(element).text();
 
-		yearText = this.getListItemYear(listItemText);
-		nameText = this.getListItemName(listItemText);
+		item.year = this.getListItemYear(listItemText);
+		yearURI = $('a:contains('+item.year+')').attr('href');
 
-		nameArray = nameText.split(' ');
+		var links = $(element).find('a');
 
-		nameURI = $('a:contains('+nameArray[0]+')').attr('href');
-		yearURI = $('a:contains('+yearText+')').attr('href');
-
-    item = {
-      name: nameText,
-      uri: nameURI,
-      year: yearText
-    };
+		if (yearURI && links.length > 1) {
+			item.uri = $(links[1]).attr('href');
+			item.name = $(links[1]).text();
+		} else if (links.length > 0) {
+			item.uri = $(links[0]).attr('href');
+			item.name = $(links[0]).text();
+		} else {
+			return;
+		}
 
 		return item;
 	}
