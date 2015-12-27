@@ -28,7 +28,7 @@ describe('Saver', function () {
   });
 
   describe('addPersonForDay', function () {
-    it('adds a person to specified day', function () {
+    xit('adds a person to specified day', function () {
       var person = {
         name: 'Test Person'
       };  

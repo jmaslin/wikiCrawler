@@ -26,6 +26,8 @@ describe('PersonRequestBuilder', function () {
         explaintext: '',
         format: 'json',
         redirects: '',
+        exintro: '',
+        exlimit: 'max',
         titles: 'Catherine_of_Aragon'
       };
       expect(builder.buildParameters()).to.eql(expectedParams);
