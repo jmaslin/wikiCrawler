@@ -16,6 +16,8 @@ class PersonRequestBuilder {
       exsentences: numberOfSentences,
       explaintext: '',
       redirects: '',
+      exintro: '',
+      exlimit: 'max',
       format: 'json'
     };
 
@@ -24,8 +26,8 @@ class PersonRequestBuilder {
     return output;
   }
 
-  transformUri() {
-    var uri = this._person.uri.replace('/wiki/', '');
+  transformUri(uri) {
+    uri = uri.replace('/wiki/', '');
     uri = decodeURIComponent(uri);
     return uri;
   }
@@ -36,7 +38,7 @@ class PersonRequestBuilder {
     return {
       name: parsedData.query.pages[pageId].title,
       pageId: pageId,
-      text: parsedData.query.pages[pageId].extract
+      text: parsedData.query.pages[pageId].extract 
     };
   }
 
